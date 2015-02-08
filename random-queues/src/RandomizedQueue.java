@@ -63,6 +63,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public void enqueue(Item item) {
+        if (item == null) {
+            throw new java.lang.NullPointerException("no adding null");
+        }
+        
         if (count == queue.length) {
             resize(queue.length * 2);
         }
@@ -84,6 +88,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public Item dequeue() {
+        if (count == 0) {
+            throw new java.util.NoSuchElementException("is empty");
+        }
+        
         int n = getRandomIndex();
         Item selected = queue[n];
         
@@ -105,6 +113,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public Item sample() {
+        if (count == 0) {
+            throw new java.util.NoSuchElementException("is empty");
+        }
+        
         int n = getRandomIndex();
         return queue[n];
     }
