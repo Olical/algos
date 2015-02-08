@@ -7,13 +7,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private class StackIterator implements Iterator<Item> {
         private Item[] shuffled;
         private int current;
+        private int localCount;
 
-        @SuppressWarnings("unchecked")
         public StackIterator() {
             current = 0;
-            shuffled = (Item[]) new Object[count];
+            localCount = count;
+            shuffled = (Item[]) new Object[localCount];
             
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < localCount; i++) {
                 shuffled[i] = queue[i];
             }
             
@@ -21,7 +22,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public boolean hasNext() {
-            return current != count;
+            return current != localCount;
         }
 
         public Item next() {
@@ -30,7 +31,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                         "tried to next on empty / used iterator");
             }
 
-            return queue[current++];
+            return shuffled[current++];
         }
 
         public void remove() {
@@ -39,7 +40,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
     }
     
-    @SuppressWarnings("unchecked")
     public RandomizedQueue() {
         queue = (Item[]) new Object[2];
         count = 0;
@@ -54,7 +54,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
     
     private void resize(int capacity) {
-        @SuppressWarnings("unchecked")
         Item[] temp = (Item[]) new Object[capacity];
         for (int i = 0; i < count; i++) {
             temp[i] = queue[i];
@@ -75,16 +74,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
     
     private int getRandomIndex() {
-        int n;
-        
-        if (count > 1) {
-            n = StdRandom.uniform(0, count - 1);
-        }
-        else {
-            n = 0;
-        }
-        
-        return n;
+        return StdRandom.uniform(count);
     }
 
     public Item dequeue() {

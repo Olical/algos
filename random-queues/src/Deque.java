@@ -6,9 +6,9 @@ public class Deque<Item> implements Iterable<Item> {
     private Node last;
 
     private class Node {
-        public Item value;
-        public Node next;
-        public Node prev;
+        private Item value;
+        private Node next;
+        private Node prev;
     }
 
     private class NodeIterator implements Iterator<Item> {
@@ -142,7 +142,7 @@ public class Deque<Item> implements Iterable<Item> {
         d.addLast(3);
         d.addFirst(0);
 
-        for (Integer i : d) {
+        for (int i : d) {
             StdOut.println(i);
         }
 
