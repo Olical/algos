@@ -6,6 +6,10 @@ public class Point implements Comparable<Point> {
     
     private class SlopeComparator implements Comparator<Point> {
         public int compare(Point a, Point b) {
+            if (a == null || b == null) {
+                throw new NullPointerException();
+            }
+            
             double aSlope = slopeTo(a);
             double bSlope = slopeTo(b);
             
@@ -45,12 +49,31 @@ public class Point implements Comparable<Point> {
 
     // slope between this point and that point
     public double slopeTo(Point that) {
-        return (that.y - this.y) / (that.x - this.x);
+        if (that == null) {
+            throw new NullPointerException();
+        }
+        
+        if (this.x == that.x && this.y == that.y) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        else if (this.x == that.x && this.y != that.y) {
+            return Double.POSITIVE_INFINITY;
+        }
+        else if (this.x != that.x && this.y == that.y) {
+            return 0;
+        }
+        else {
+            return (double) (that.y - this.y) / (that.x - this.x);
+        }
     }
 
     // is this point lexicographically smaller than that one?
     // comparing y-coordinates and breaking ties by x-coordinates
     public int compareTo(Point that) {
+        if (that == null) {
+            throw new NullPointerException();
+        }
+        
         if (this.y < that.y || (this.y == that.y && this.x < that.x)) {
             return -1;
         }
@@ -71,5 +94,6 @@ public class Point implements Comparable<Point> {
     // unit test
     public static void main(String[] args) {
         /* YOUR CODE HERE */
+        StdOut.println(new Point(2, 5).slopeTo(new Point(15, 8)));
     }
 }
