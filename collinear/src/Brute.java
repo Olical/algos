@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Brute {
     public static void main(String[] args) {
         // rescale coordinates and turn on animation mode
@@ -19,6 +21,8 @@ public class Brute {
             p.draw();
         }
         
+        Arrays.sort(points);
+        
         for (int a = 0; a < N; a++) {
             for (int b = a + 1; b < N; b++) {
                 for (int c = b + 1; c < N; c++) {
@@ -34,6 +38,12 @@ public class Brute {
                         
                         if (s1 == s2 && s2 == s3) {
                             pa.drawTo(pd);
+                            StdOut.println(
+                                    pa.toString() + " -> " +
+                                    pb.toString() + " -> " +
+                                    pc.toString() + " -> " +
+                                    pd.toString()
+                            );
                         }
                     }
                 }
