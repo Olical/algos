@@ -39,10 +39,10 @@ public class Brute {
                         if (s1 == s2 && s2 == s3) {
                             pa.drawTo(pd);
                             StdOut.println(
-                                    pa.toString() + " -> " +
-                                    pb.toString() + " -> " +
-                                    pc.toString() + " -> " +
-                                    pd.toString()
+                                pa.toString() + " -> "
+                                + pb.toString() + " -> "
+                                + pc.toString() + " -> "
+                                + pd.toString()
                             );
                         }
                     }
