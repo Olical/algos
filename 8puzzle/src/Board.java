@@ -26,8 +26,16 @@ public class Board {
     } // all neighboring boards
 
     public String toString() {
-    } // string representation of this board (in the output format specified
-      // below)
+        StringBuilder s = new StringBuilder();
+        s.append(N + "\n");
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                s.append(String.format("%2d ", tiles[i][j]));
+            }
+            s.append("\n");
+        }
+        return s.toString();
+    }
 
     public static void main(String[] args) {
     }

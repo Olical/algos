@@ -1,5 +1,8 @@
 public class Solver {
     public Solver(Board initial) {
+        if (initial == null) {
+            throw new java.lang.NullPointerException();
+        }
     } // find a solution to the initial board (using the A* algorithm)
 
     public boolean isSolvable() {
