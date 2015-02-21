@@ -35,8 +35,8 @@ public class Board {
     public int hamming() {
         int h = 0;
 
-        for (int i = 0; i < n * n; i++) {
-            if (i != board[i]) {
+        for (int i = 0; i < (n * n) - 1; i++) {
+            if (i != board[i] - 1) {
                 h++;
             }
         }
@@ -47,10 +47,23 @@ public class Board {
     // sum of Manhattan distances between blocks and goal
     public int manhattan() {
         int m = 0;
+        int b;
+        int x1;
+        int y1;
+        int x2;
+        int y2;
 
         for (int i = 0; i < n * n; i++) {
-            if (i != board[i]) {
-                m += Math.abs(i - board[i]);
+            x1 = i % n;
+            y1 = i / n;
+            
+            b = board[i] - 1;
+            
+            x2 = b % n;
+            y2 = b / n;
+            
+            if (i != b && b != -1) {
+                m += Math.abs(x1 - x2) + Math.abs(y1 - y2);
             }
         }
 
@@ -62,7 +75,7 @@ public class Board {
         boolean sorted = true;
 
         for (int i = 0; i < board.length - 1; i++) {
-            if (board[i] > board[i + 1]) {
+            if (board[i] > board[i + 1] && (board[i + 1] != 0 && i + 1 < board.length)) {
                 sorted = false;
                 break;
             }
@@ -74,6 +87,16 @@ public class Board {
     // a twin is a board that is obtained by exchanging two adjacent blocks in
     // the same row
     public Board twin() {
+        // Cheat, if it's 2x2 use top or bottom row
+        if (n == 2) {
+            if (board[nth(0, 0)] != 0 && board[nth(1, 0)] != 0) {
+                return swap(0, 0, 1, 0);
+            }
+            else {
+                return swap(0, 1, 1, 1);
+            }
+        }
+        
         // If center top is blank, use second row.
         // Otherwise if the left top is not 0, use the two top left.
         // If that's zero then the two top right are correct.
@@ -106,27 +129,27 @@ public class Board {
         int x = 0;
         int y = 0;
 
-        find: for (; x < n; x++) {
-            for (; y < n; y++) {
-                if (board[nth(x, y)] == 0) {
+        find: for (x = 0; x < n; x++) {
+            for (y = 0; y < n; y++) {
+                if ((int) board[nth(x, y)] == 0) {
                     break find;
                 }
             }
         }
 
-        if (x != 0) {
+        if (x > 0) {
             neighbors.push(swap(x, y, x - 1, y));
         }
 
-        if (x != n - 1) {
+        if (x < n - 1) {
             neighbors.push(swap(x, y, x + 1, y));
         }
 
-        if (y != 0) {
+        if (y > 0) {
             neighbors.push(swap(x, y, x, y - 1));
         }
 
-        if (y != n - 1) {
+        if (y < n - 1) {
             neighbors.push(swap(x, y, x, y + 1));
         }
 
@@ -157,12 +180,16 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        int[][] m = { { 3, 1, 0 }, { 4, 2, 5 }, { 7, 8, 6 } };
+        int[][] m = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
         Board b = new Board(m);
         StdOut.println(b);
 
         for (Board bi : b.neighbors()) {
             StdOut.println(bi);
         }
+        
+        StdOut.println(b.hamming());
+        StdOut.println(b.manhattan());
+        StdOut.println(b.isGoal());
     }
 }
