@@ -75,7 +75,7 @@ public class Board {
         boolean sorted = true;
 
         for (int i = 0; i < board.length - 1; i++) {
-            if (board[i] > board[i + 1] && (board[i + 1] != 0 && i + 1 < board.length)) {
+            if (board[i] > board[i + 1] && !(board[i + 1] == 0 && i + 1 == board.length - 1)) {
                 sorted = false;
                 break;
             }
@@ -87,27 +87,11 @@ public class Board {
     // a twin is a board that is obtained by exchanging two adjacent blocks in
     // the same row
     public Board twin() {
-        // Cheat, if it's 2x2 use top or bottom row
-        if (n == 2) {
-            if (board[nth(0, 0)] != 0 && board[nth(1, 0)] != 0) {
-                return swap(0, 0, 1, 0);
-            }
-            else {
-                return swap(0, 1, 1, 1);
-            }
+        if (board[0] != 0 && board[1] != 0) {
+            return swap(0, 0, 0, 1);
         }
-        
-        // If center top is blank, use second row.
-        // Otherwise if the left top is not 0, use the two top left.
-        // If that's zero then the two top right are correct.
-        // Presuming a 3x3 grid, but the rules will apply to all other sizes
-        // greater than it.
-        if (board[1] == 0) {
-            return swap(0, 1, 1, 1);
-        } else if (board[0] != 0) {
-            return swap(0, 0, 1, 0);
-        } else {
-            return swap(1, 0, 2, 0);
+        else {
+            return swap(1, 0, 1, 1);
         }
     }
 
@@ -180,16 +164,9 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        int[][] m = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
+        int[][] m = {{1, 0}, {3, 2}};
         Board b = new Board(m);
         StdOut.println(b);
-
-        for (Board bi : b.neighbors()) {
-            StdOut.println(bi);
-        }
-        
-        StdOut.println(b.hamming());
-        StdOut.println(b.manhattan());
         StdOut.println(b.isGoal());
     }
 }
